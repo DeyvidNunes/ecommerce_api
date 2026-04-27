@@ -1,6 +1,12 @@
 # API Shop
 
-API RESTful de e-commerce desenvolvida como projeto de estágio. Permite o gerenciamento de usuários, produtos e pedidos com autenticação JWT e controle de acesso por perfil (admin/user).
+API RESTful de e-commerce desenvolvida como projeto pessoal. Permite o gerenciamento de usuários, produtos e pedidos com autenticação JWT e controle de acesso por perfil (admin/user).
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens)
+![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=flat&logo=sequelize&logoColor=white)
 
 ---
 
@@ -21,7 +27,7 @@ API RESTful de e-commerce desenvolvida como projeto de estágio. Permite o geren
 
 ## Arquitetura
 
-O projeto segue o padrão **MVC (Model-View-Controller)**:
+O projeto segue arquitetura em camadas (Routes → Controllers → Models):
 
 ```
 src/
@@ -46,7 +52,7 @@ src/
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/api-shop.git
+git clone https://github.com/DeyvidNunes/ecommerce_api.git
 
 # Entre na pasta
 cd api-shop
@@ -86,6 +92,9 @@ O servidor irá rodar em `http://localhost:3000`
 As rotas protegidas exigem um token JWT no header da requisição:
 
 ```
+Authorization: Bearer <token>
+```
+
 O token é gerado ao fazer login em `POST /users/login`.
 
 ---
@@ -106,8 +115,8 @@ O token é gerado ao fazer login em `POST /users/login`.
 
 | Método | Rota | Descrição | Auth |
 |--------|------|-----------|------|
-| GET | `/products` | Listar todos os produtos | ❌ |
-| GET | `/products/search` | Filtrar por nome e/ou preço | ❌ |
+| GET | `/products` | Listar produtos (suporta paginação: `?page=1&limit=10`) | ❌ |
+| GET | `/products/search` | Filtrar por nome e/ou preço (busca parcial) | ❌ |
 | GET | `/products/:id` | Buscar produto por ID | ❌ |
 | POST | `/products/add` | Criar produto | ✅ Admin |
 | PUT | `/products/:id` | Atualizar produto | ✅ Admin |
@@ -119,7 +128,7 @@ O token é gerado ao fazer login em `POST /users/login`.
 |--------|------|-----------|------|
 | POST | `/orders` | Criar pedido com itens | ✅ |
 | GET | `/orders` | Listar meus pedidos | ✅ |
-| GET | `/orders/all` | Listar todos os pedidos | ✅ Admin |
+| GET | `/orders/all` | Listar todos os pedidos (suporta paginação: `?page=1&limit=10`) | ✅ Admin |
 | PATCH | `/orders/:id` | Atualizar status do pedido | ✅ |
 | DELETE | `/orders/:id` | Deletar pedido | ✅ |
 
@@ -150,7 +159,7 @@ POST /users/login
 ### Criar pedido
 ```json
 POST /orders
-Authorization: Bearer token
+Authorization: Bearer <token>
 
 {
   "items": [
@@ -165,12 +174,16 @@ Authorization: Bearer token
 GET /products/search?name=cadeira
 GET /products/search?minPrice=10&maxPrice=100
 GET /products/search?name=cadeira&minPrice=10&maxPrice=100
+```
 
+### Listar produtos com paginação
+```
+GET /products?page=1&limit=10
 ```
 
 ---
 
-##  Modelo de dados
+## Modelo de dados
 
 ```
 User
@@ -189,6 +202,6 @@ OrderItem
 
 ---
 
-##  Autor
+## Autor
 
-Desenvolvido por **Deyvid**
+Desenvolvido por **Deyvid Nunes** — [github.com/DeyvidNunes](https://github.com/DeyvidNunes)
